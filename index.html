@@ -986,6 +986,20 @@
 
     const name = document.getElementById('student-name').value.trim() || 'Anonymous';
     const studentClass = document.getElementById('student-class').value.trim() || '—';
+
+    // Count answered
+    const mcDone = Object.keys(mcAnswers).length;
+    const openDone = [1,7,13,19].filter(q => {
+      const el = document.getElementById('q' + q + '-input');
+      return el && el.value.trim().length > 0;
+    }).length;
+    const totalDone = mcDone + openDone;
+
+    if (totalDone < TOTAL) {
+      const missing = TOTAL - totalDone;
+      const go = confirm(`You still have ${missing} unanswered question(s). Are you sure you want to hand in your answers?`);
+      if (!go) return;
+    }
     let score = 0;
     let autoScore = 0; // MC only
     const resultRows = [];
@@ -1230,35 +1244,27 @@
 
   function renderSubmissions(rows) {
     let html = '';
+
+    // Summary table first — one row per student
+    html += `<table class="teacher-table" style="margin-bottom:2rem;">
+      <thead><tr><th>Name</th><th>Class</th><th>Score</th><th>%</th><th>Pass?</th><th>Time</th></tr></thead>
+      <tbody>`;
     rows.forEach(sub => {
-      const parsedRows = typeof sub.answers === 'string' ? JSON.parse(sub.answers) : sub.answers;
       const ts = sub.submitted_at ? new Date(sub.submitted_at).toLocaleString('nl-NL') : '';
       const cls = sub.student_class || sub.studentClass || '—';
-      html += `<div style="margin-bottom:2rem;">
-        <div style="background:var(--ink);color:var(--cream);padding:0.5rem 0.8rem;border-radius:4px 4px 0 0;font-size:0.88rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;">
-          <strong>${sub.student_name} &nbsp;·&nbsp; Class ${cls}</strong>
-          <span>${sub.score} / ${sub.total || TOTAL} &nbsp;·&nbsp; ${ts}</span>
-        </div>
-        <table class="teacher-table">
-          <thead><tr><th>#</th><th>Question</th><th>Answer given</th><th>Correct / Model</th><th>Mark</th></tr></thead>
-          <tbody>`;
-      parsedRows.forEach(row => {
-        if (row.type === 'mc') {
-          html += `<tr>
-            <td>${row.q}</td><td>${row.text}</td>
-            <td>${row.given}</td><td>${row.correct}</td>
-            <td class="${row.isCorrect ? 't-correct' : 't-wrong'}">${row.isCorrect ? '1' : '0'}</td>
-          </tr>`;
-        } else {
-          html += `<tr>
-            <td>${row.q}</td><td>${row.text}</td>
-            <td><em>${row.given}</em></td><td><small>${row.model}</small></td>
-            <td class="t-open">${row.auto ? '1?' : '0?'}</td>
-          </tr>`;
-        }
-      });
-      html += `</tbody></table></div>`;
+      const pct = Math.round((sub.score / (sub.total || TOTAL)) * 100);
+      const pass = sub.score >= 13;
+      html += `<tr>
+        <td><strong>${sub.student_name}</strong></td>
+        <td>${cls}</td>
+        <td>${sub.score} / ${sub.total || TOTAL}</td>
+        <td>${pct}%</td>
+        <td style="color:${pass ? 'var(--correct)' : 'var(--wrong)'};font-weight:700;">${pass ? '✓' : '✗'}</td>
+        <td style="font-size:0.78rem;color:var(--ink-light);">${ts}</td>
+      </tr>`;
     });
+    html += `</tbody></table>`;
+
     return html;
   }
 
