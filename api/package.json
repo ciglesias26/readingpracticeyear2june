@@ -1,0 +1,8 @@
+{
+  "name": "tvi-reading-practice",
+  "version": "1.0.0",
+  "description": "TVI Reading Practice — Year 2 English",
+  "dependencies": {
+    "@neondatabase/serverless": "^0.9.0"
+  }
+}
