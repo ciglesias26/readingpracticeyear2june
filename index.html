@@ -563,7 +563,7 @@
         <div class="q-quote">'so they can take their dogs to work with them.'</div>
         <div class="q-text">Wat zou hier het voordeel van zijn volgens de tekst? Geef antwoord in het Nederlands.</div>
         <textarea class="open-input" id="q1-input" placeholder="Typ hier je antwoord..."></textarea>
-        <button class="check-btn" onclick="saveOpen(1)">Save answer</button>
+        
         <div class="feedback" id="q1-feedback"></div>
       </div>
     </div>
@@ -652,7 +652,7 @@
         <div class="q-quote">"C.K. figures he and network FX have already won" (paragraph 4)</div>
         <div class="q-text">In welke zin uit alinea 3 of 4 wordt duidelijk waarom Louis C.K. dit vindt? Citeer de eerste twee woorden van die zin.</div>
         <textarea class="open-input" id="q7-input" placeholder="Eerste twee woorden..." style="min-height:44px;"></textarea>
-        <button class="check-btn" onclick="saveOpen(7)">Save answer</button>
+        
         <div class="feedback" id="q7-feedback"></div>
       </div>
     </div>
@@ -739,7 +739,7 @@
         <div class="q-quote">'It's a policy you might assume would end very quickly' (alinea 2)</div>
         <div class="q-text">In welke zin heeft de schrijfster dit al eens eerder gezegd? Citeer de eerste twee woorden van deze zin.</div>
         <textarea class="open-input" id="q13-input" placeholder="Eerste twee woorden..." style="min-height:44px;"></textarea>
-        <button class="check-btn" onclick="saveOpen(13)">Save answer</button>
+        
         <div class="feedback" id="q13-feedback"></div>
       </div>
     </div>
@@ -828,7 +828,7 @@
         <div class="q-quote">'This makes it all their fault, their failings.' (alinea 2)</div>
         <div class="q-text">Naar wie verwijst 'their'? Je mag in het Engels of in het Nederlands antwoorden.</div>
         <textarea class="open-input" id="q19-input" placeholder="Typ hier je antwoord..." style="min-height:44px;"></textarea>
-        <button class="check-btn" onclick="saveOpen(19)">Save answer</button>
+        
         <div class="feedback" id="q19-feedback"></div>
       </div>
     </div>
@@ -1033,8 +1033,9 @@
         resultRows.push({ q, text: meta.text, given, correct: meta.correct, isCorrect, type:'mc' });
 
       } else {
-        // Open question
-        given = openAnswers[q] || '';
+        // Open question — read directly from textarea
+        const inputEl = document.getElementById('q' + q + '-input');
+        given = (inputEl ? inputEl.value.trim() : '') || openAnswers[q] || '';
         const auto = given && meta.keywords.some(kw => given.toLowerCase().includes(kw.toLowerCase()));
         if (auto) { score++; autoScore++; }
         rowClass = 'r-open';
@@ -1042,8 +1043,6 @@
         // Show feedback
         const input = document.getElementById('q' + q + '-input');
         if (input) { input.disabled = true; }
-        const btn = document.querySelector('#qblock-' + q + ' .check-btn');
-        if (btn) { btn.disabled = true; }
         const fb = document.getElementById('q' + q + '-feedback');
         if (fb) {
           fb.textContent = (given ? (auto ? '✓ Looks good! ' : '~ Check: ') : '✗ No answer. ') + 'Model: ' + meta.model;
