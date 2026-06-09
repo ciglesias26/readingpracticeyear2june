@@ -33,7 +33,6 @@
     min-height: 100vh;
   }
 
-  /* HEADER */
   header {
     background: var(--ink);
     color: var(--cream);
@@ -63,7 +62,6 @@
   }
   .score-bar span { color: #ffd700; font-weight: 600; }
 
-  /* NAV TABS */
   .text-nav {
     background: var(--paper);
     border-bottom: 2px solid var(--rule);
@@ -94,14 +92,12 @@
     font-weight: 600;
   }
 
-  /* MAIN LAYOUT */
   .main {
     display: grid;
     grid-template-columns: 1fr 1fr;
     height: calc(100vh - 120px);
   }
 
-  /* TEXT PANEL */
   .text-panel {
     background: var(--paper);
     border-right: 2px solid var(--rule);
@@ -162,7 +158,6 @@
     padding: 0 2px;
   }
 
-  /* QUESTIONS PANEL */
   .questions-panel {
     background: var(--cream);
     overflow-y: auto;
@@ -196,6 +191,46 @@
   .q-header .q-num { font-weight: 700; }
   .q-header .q-pts { opacity: 0.6; font-style: italic; }
 
+
+  /* Question group headers */
+  .q-group-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: var(--accent);
+    color: white;
+    padding: 0.55rem 1rem;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+    margin-top: 1.2rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    user-select: none;
+  }
+  .q-group-header:first-child { margin-top: 0; }
+  .q-group-header:hover { background: var(--accent-light); }
+  .q-group-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.85;
+    white-space: nowrap;
+  }
+  .q-group-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    flex: 1;
+  }
+  .q-group-arrow {
+    font-size: 0.72rem;
+    opacity: 0.7;
+    font-style: italic;
+    white-space: nowrap;
+  }
+
   .q-body { padding: 1rem; }
   .q-text {
     font-size: 0.9rem;
@@ -219,7 +254,6 @@
     font-size: 0.88rem;
   }
 
-  /* MC OPTIONS */
   .options { display: flex; flex-direction: column; gap: 0.4rem; }
   .option-btn {
     display: flex;
@@ -265,7 +299,6 @@
   .option-btn.wrong .opt-letter { color: var(--wrong); }
   .option-btn:disabled { cursor: default; }
 
-  /* OPEN QUESTIONS */
   .open-input {
     width: 100%;
     padding: 0.6rem 0.8rem;
@@ -285,7 +318,6 @@
   .open-input.correct-open { border-color: var(--correct); background: var(--correct-bg); }
   .open-input.wrong-open { border-color: var(--wrong); background: var(--wrong-bg); }
 
-  /* CHECK BUTTONS */
   .check-btn {
     margin-top: 0.6rem;
     padding: 0.4rem 1rem;
@@ -312,7 +344,6 @@
   .feedback.good { background: var(--correct-bg); color: var(--correct); }
   .feedback.bad { background: var(--wrong-bg); color: var(--wrong); }
 
-  /* MODAL */
   .modal-overlay {
     display: none;
     position: fixed; inset: 0;
@@ -373,7 +404,6 @@
   .score-summary .big { font-family: 'Playfair Display', serif; font-size: 2rem; }
   .score-summary .sub { font-size: 0.85rem; opacity: 0.7; margin-top: 0.2rem; }
 
-  /* TEACHER RESULTS TABLE */
   .teacher-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-top: 1rem; }
   .teacher-table th {
     background: var(--ink); color: var(--cream);
@@ -397,7 +427,6 @@
   }
   .pw-error { color: var(--wrong); font-size: 0.85rem; margin-top: 0.5rem; display: none; }
 
-  /* PROGRESS */
   .progress-footer {
     position: fixed;
     bottom: 0; left: 0; right: 0;
@@ -424,7 +453,6 @@
     transition: width 0.3s ease;
   }
 
-  /* SCROLLBAR */
   .text-panel::-webkit-scrollbar,
   .questions-panel::-webkit-scrollbar { width: 6px; }
   .text-panel::-webkit-scrollbar-track,
@@ -444,7 +472,7 @@
 <header>
   <div>
     <div class="meta">Year 2 English — Reading Practice</div>
-    <h1>TVI — 7 Texts · 20 Questions</h1>
+    <h1>TVI — 7 Texts · 19 Questions</h1>
   </div>
   <button onclick="openTeacherLogin()" style="padding:0.45rem 1rem;background:transparent;color:var(--cream);border:1px solid rgba(255,255,255,0.3);border-radius:4px;font-family:'Source Serif 4',serif;font-size:0.82rem;cursor:pointer;opacity:0.6;">Teacher</button>
 </header>
@@ -556,6 +584,13 @@
   <!-- QUESTIONS PANEL -->
   <div class="questions-panel" id="questions-panel">
 
+    <!-- TEXT 1 GROUP -->
+    <div class="q-group-header" onclick="showText(0)">
+      <span class="q-group-num">Text 1</span>
+      <span class="q-group-title">Doggie Vibes</span>
+      <span class="q-group-arrow">↖ click to read</span>
+    </div>
+
     <!-- Q1 -->
     <div class="question-block" id="qblock-1" data-text="0">
       <div class="q-header"><span class="q-num">Question 1</span><span class="q-pts">1 pt · Open (Dutch)</span></div>
@@ -563,289 +598,312 @@
         <div class="q-quote">'so they can take their dogs to work with them.'</div>
         <div class="q-text">Wat zou hier het voordeel van zijn volgens de tekst? Geef antwoord in het Nederlands.</div>
         <textarea class="open-input" id="q1-input" placeholder="Typ hier je antwoord..."></textarea>
-        
         <div class="feedback" id="q1-feedback"></div>
       </div>
     </div>
 
-    <!-- Q2 -->
+    <!-- TEXT 2 GROUP -->
+    <div class="q-group-header" onclick="showText(1)">
+      <span class="q-group-num">Text 2</span>
+      <span class="q-group-title">Tall Order</span>
+      <span class="q-group-arrow">↖ click to read</span>
+    </div>
+
+    <!-- Q2 — Tall Order: Alain Robert conclusion -->
     <div class="question-block" id="qblock-2" data-text="1">
       <div class="q-header"><span class="q-num">Question 2</span><span class="q-pts">1 pt · MC</span></div>
       <div class="q-body">
-        <div class="q-quote">'Tall order' (titel)</div>
-        <div class="q-text">Welke reden geeft de schrijver voor dit advies?</div>
+        <div class="q-text">What can be concluded about Alain Robert based on this text?</div>
         <div class="options">
-          <button class="option-btn" onclick="checkMC(2,'A','C')"><span class="opt-letter">A</span> Het staat nogal ordinair bij de meeste vrouwen.</button>
-          <button class="option-btn" onclick="checkMC(2,'B','C')"><span class="opt-letter">B</span> Je kunt er alleen op lopen als je gespierd bent.</button>
-          <button class="option-btn" onclick="checkMC(2,'C','C')"><span class="opt-letter">C</span> Ze zijn buitengewoon ongemakkelijk in het gebruik.</button>
+          <button class="option-btn" onclick="checkMC(2,'A','B')"><span class="opt-letter">A</span> He is going to climb the Shard as soon as official permission is given.</button>
+          <button class="option-btn" onclick="checkMC(2,'B','B')"><span class="opt-letter">B</span> He is likely to climb the Shard, even though its owners forbid it.</button>
+          <button class="option-btn" onclick="checkMC(2,'C','B')"><span class="opt-letter">C</span> He wants to climb the Shard only if the right precautions are taken.</button>
+          <button class="option-btn" onclick="checkMC(2,'D','B')"><span class="opt-letter">D</span> He was arrested while attempting to climb the Shard illegally.</button>
+          <button class="option-btn" onclick="checkMC(2,'E','B')"><span class="opt-letter">E</span> He was asked to climb the Shard, but turned down this request.</button>
         </div>
         <div class="feedback" id="q2-feedback"></div>
       </div>
     </div>
 
-    <!-- Q3 -->
+    <!-- Q3 — Tall Order: writer's attitude -->
     <div class="question-block" id="qblock-3" data-text="1">
       <div class="q-header"><span class="q-num">Question 3</span><span class="q-pts">1 pt · MC</span></div>
       <div class="q-body">
-        <div class="q-text">What can be concluded about Alain Robert based on this text?</div>
+        <div class="q-text">What is the writer's attitude towards Alain Robert's actions?</div>
         <div class="options">
-          <button class="option-btn" onclick="checkMC(3,'A','B')"><span class="opt-letter">A</span> He is going to climb the Shard as soon as official permission is given.</button>
-          <button class="option-btn" onclick="checkMC(3,'B','B')"><span class="opt-letter">B</span> He is likely to climb the Shard, even though its owners forbid it.</button>
-          <button class="option-btn" onclick="checkMC(3,'C','B')"><span class="opt-letter">C</span> He wants to climb the Shard only if the right precautions are taken.</button>
-          <button class="option-btn" onclick="checkMC(3,'D','B')"><span class="opt-letter">D</span> He was arrested while attempting to climb the Shard illegally.</button>
-          <button class="option-btn" onclick="checkMC(3,'E','B')"><span class="opt-letter">E</span> He was asked to climb the Shard, but turned down this request.</button>
+          <button class="option-btn" onclick="checkMC(3,'A','D')"><span class="opt-letter">A</span> clearly annoyed</button>
+          <button class="option-btn" onclick="checkMC(3,'B','D')"><span class="opt-letter">B</span> quite envious</button>
+          <button class="option-btn" onclick="checkMC(3,'C','D')"><span class="opt-letter">C</span> rather concerned</button>
+          <button class="option-btn" onclick="checkMC(3,'D','D')"><span class="opt-letter">D</span> slightly amused</button>
         </div>
         <div class="feedback" id="q3-feedback"></div>
       </div>
     </div>
 
-    <!-- Q4 -->
-    <div class="question-block" id="qblock-4" data-text="1">
+    <!-- TEXT 3 GROUP -->
+    <div class="q-group-header" onclick="showText(2)">
+      <span class="q-group-num">Text 3</span>
+      <span class="q-group-title">Louis C.K.</span>
+      <span class="q-group-arrow">↖ click to read</span>
+    </div>
+
+    <!-- Q4 — Louis C.K.: expecting disappointment -->
+    <div class="question-block" id="qblock-4" data-text="2">
       <div class="q-header"><span class="q-num">Question 4</span><span class="q-pts">1 pt · MC</span></div>
       <div class="q-body">
-        <div class="q-text">What is the writer's attitude towards Alain Robert's actions?</div>
+        <div class="q-quote">"I was expecting to be disappointed" (paragraph 2)</div>
+        <div class="q-text">Why did Louis C.K. say this?</div>
         <div class="options">
-          <button class="option-btn" onclick="checkMC(4,'A','D')"><span class="opt-letter">A</span> clearly annoyed</button>
-          <button class="option-btn" onclick="checkMC(4,'B','D')"><span class="opt-letter">B</span> quite envious</button>
-          <button class="option-btn" onclick="checkMC(4,'C','D')"><span class="opt-letter">C</span> rather concerned</button>
-          <button class="option-btn" onclick="checkMC(4,'D','D')"><span class="opt-letter">D</span> slightly amused</button>
+          <button class="option-btn" onclick="checkMC(4,'A','D')"><span class="opt-letter">A</span> He feared the character in his show had turned out to be an embarrassing person.</button>
+          <button class="option-btn" onclick="checkMC(4,'B','D')"><span class="opt-letter">B</span> He knew his show had been given bad reviews in many of the mainstream papers.</button>
+          <button class="option-btn" onclick="checkMC(4,'C','D')"><span class="opt-letter">C</span> He realised that the show he had created caused a lot of public indignation.</button>
+          <button class="option-btn" onclick="checkMC(4,'D','D')"><span class="opt-letter">D</span> He thought his show would be considered too outspoken to be nominated for an award.</button>
         </div>
         <div class="feedback" id="q4-feedback"></div>
       </div>
     </div>
 
-    <!-- Q5 -->
+    <!-- Q5 — Louis C.K.: main point para 3 -->
     <div class="question-block" id="qblock-5" data-text="2">
       <div class="q-header"><span class="q-num">Question 5</span><span class="q-pts">1 pt · MC</span></div>
       <div class="q-body">
-        <div class="q-quote">"I was expecting to be disappointed" (paragraph 2)</div>
-        <div class="q-text">Why did Louis C.K. say this?</div>
+        <div class="q-text">What is the main point made in paragraph 3?</div>
         <div class="options">
-          <button class="option-btn" onclick="checkMC(5,'A','D')"><span class="opt-letter">A</span> He feared the character in his show had turned out to be an embarrassing person.</button>
-          <button class="option-btn" onclick="checkMC(5,'B','D')"><span class="opt-letter">B</span> He knew his show had been given bad reviews in many of the mainstream papers.</button>
-          <button class="option-btn" onclick="checkMC(5,'C','D')"><span class="opt-letter">C</span> He realised that the show he had created caused a lot of public indignation.</button>
-          <button class="option-btn" onclick="checkMC(5,'D','D')"><span class="opt-letter">D</span> He thought his show would be considered too outspoken to be nominated for an award.</button>
+          <button class="option-btn" onclick="checkMC(5,'A','B')"><span class="opt-letter">A</span> Despite his problems, Louis C.K. has created a commercial success.</button>
+          <button class="option-btn" onclick="checkMC(5,'B','B')"><span class="opt-letter">B</span> Network FX gave Louis C.K. the artistic independence needed to succeed.</button>
+          <button class="option-btn" onclick="checkMC(5,'C','B')"><span class="opt-letter">C</span> The average viewer dislikes being told by critics which shows to like.</button>
+          <button class="option-btn" onclick="checkMC(5,'D','B')"><span class="opt-letter">D</span> Unlike many of its rivals, network FX is a financially sound company.</button>
         </div>
         <div class="feedback" id="q5-feedback"></div>
       </div>
     </div>
 
-    <!-- Q6 -->
+    <!-- Q6 — Louis C.K.: first 2 words -->
     <div class="question-block" id="qblock-6" data-text="2">
-      <div class="q-header"><span class="q-num">Question 6</span><span class="q-pts">1 pt · MC</span></div>
+      <div class="q-header"><span class="q-num">Question 6</span><span class="q-pts">1 pt · Open (cite first 2 words)</span></div>
       <div class="q-body">
-        <div class="q-text">What is the main point made in paragraph 3?</div>
-        <div class="options">
-          <button class="option-btn" onclick="checkMC(6,'A','B')"><span class="opt-letter">A</span> Despite his problems, Louis C.K. has created a commercial success.</button>
-          <button class="option-btn" onclick="checkMC(6,'B','B')"><span class="opt-letter">B</span> Network FX gave Louis C.K. the artistic independence needed to succeed.</button>
-          <button class="option-btn" onclick="checkMC(6,'C','B')"><span class="opt-letter">C</span> The average viewer dislikes being told by critics which shows to like.</button>
-          <button class="option-btn" onclick="checkMC(6,'D','B')"><span class="opt-letter">D</span> Unlike many of its rivals, network FX is a financially sound company.</button>
-        </div>
+        <div class="q-quote">"C.K. figures he and network FX have already won" (paragraph 4)</div>
+        <div class="q-text">In welke zin uit alinea 3 of 4 wordt duidelijk waarom Louis C.K. dit vindt? Citeer de eerste twee woorden van die zin.</div>
+        <textarea class="open-input" id="q6-input" placeholder="Eerste twee woorden..." style="min-height:44px;"></textarea>
         <div class="feedback" id="q6-feedback"></div>
       </div>
     </div>
 
-    <!-- Q7 -->
-    <div class="question-block" id="qblock-7" data-text="2">
-      <div class="q-header"><span class="q-num">Question 7</span><span class="q-pts">1 pt · Open (cite first 2 words)</span></div>
+    <!-- TEXT 4 GROUP -->
+    <div class="q-group-header" onclick="showText(3)">
+      <span class="q-group-num">Text 4</span>
+      <span class="q-group-title">Give Us a Break!</span>
+      <span class="q-group-arrow">↖ click to read</span>
+    </div>
+
+    <!-- Q7 — Give Us a Break: gap 3 -->
+    <div class="question-block" id="qblock-7" data-text="3">
+      <div class="q-header"><span class="q-num">Question 7</span><span class="q-pts">1 pt · MC (gap fill)</span></div>
       <div class="q-body">
-        <div class="q-quote">"C.K. figures he and network FX have already won" (paragraph 4)</div>
-        <div class="q-text">In welke zin uit alinea 3 of 4 wordt duidelijk waarom Louis C.K. dit vindt? Citeer de eerste twee woorden van die zin.</div>
-        <textarea class="open-input" id="q7-input" placeholder="Eerste twee woorden..." style="min-height:44px;"></textarea>
-        
+        <div class="q-text">Kies bij <strong>3</strong> in alinea 1 het juiste antwoord.</div>
+        <div class="options">
+          <button class="option-btn" onclick="checkMC(7,'A','B', 'however', 'blank3')"><span class="opt-letter">A</span> for example</button>
+          <button class="option-btn" onclick="checkMC(7,'B','B', 'however', 'blank3')"><span class="opt-letter">B</span> however</button>
+          <button class="option-btn" onclick="checkMC(7,'C','B', 'however', 'blank3')"><span class="opt-letter">C</span> likewise</button>
+          <button class="option-btn" onclick="checkMC(7,'D','B', 'however', 'blank3')"><span class="opt-letter">D</span> therefore</button>
+        </div>
         <div class="feedback" id="q7-feedback"></div>
       </div>
     </div>
 
-    <!-- Q8 -->
+    <!-- Q8 — Give Us a Break: gap 4 -->
     <div class="question-block" id="qblock-8" data-text="3">
       <div class="q-header"><span class="q-num">Question 8</span><span class="q-pts">1 pt · MC (gap fill)</span></div>
       <div class="q-body">
-        <div class="q-text">Kies bij <strong>3</strong> in alinea 1 het juiste antwoord.</div>
+        <div class="q-text">Kies bij <strong>4</strong> in alinea 3 het juiste antwoord.</div>
         <div class="options">
-          <button class="option-btn" onclick="checkMC(8,'A','B', 'however', 'blank3')"><span class="opt-letter">A</span> for example</button>
-          <button class="option-btn" onclick="checkMC(8,'B','B', 'however', 'blank3')"><span class="opt-letter">B</span> however</button>
-          <button class="option-btn" onclick="checkMC(8,'C','B', 'however', 'blank3')"><span class="opt-letter">C</span> likewise</button>
-          <button class="option-btn" onclick="checkMC(8,'D','B', 'however', 'blank3')"><span class="opt-letter">D</span> therefore</button>
+          <button class="option-btn" onclick="checkMC(8,'A','C', 'protecting', 'blank4')"><span class="opt-letter">A</span> isolating</button>
+          <button class="option-btn" onclick="checkMC(8,'B','C', 'protecting', 'blank4')"><span class="opt-letter">B</span> promoting</button>
+          <button class="option-btn" onclick="checkMC(8,'C','C', 'protecting', 'blank4')"><span class="opt-letter">C</span> protecting</button>
+          <button class="option-btn" onclick="checkMC(8,'D','C', 'protecting', 'blank4')"><span class="opt-letter">D</span> researching</button>
         </div>
         <div class="feedback" id="q8-feedback"></div>
       </div>
     </div>
 
-    <!-- Q9 -->
+    <!-- Q9 — Give Us a Break: gap 5 -->
     <div class="question-block" id="qblock-9" data-text="3">
       <div class="q-header"><span class="q-num">Question 9</span><span class="q-pts">1 pt · MC (gap fill)</span></div>
       <div class="q-body">
-        <div class="q-text">Kies bij <strong>4</strong> in alinea 3 het juiste antwoord.</div>
+        <div class="q-text">Kies bij <strong>5</strong> in alinea 5 het juiste antwoord.</div>
         <div class="options">
-          <button class="option-btn" onclick="checkMC(9,'A','C', 'protecting', 'blank4')"><span class="opt-letter">A</span> isolating</button>
-          <button class="option-btn" onclick="checkMC(9,'B','C', 'protecting', 'blank4')"><span class="opt-letter">B</span> promoting</button>
-          <button class="option-btn" onclick="checkMC(9,'C','C', 'protecting', 'blank4')"><span class="opt-letter">C</span> protecting</button>
-          <button class="option-btn" onclick="checkMC(9,'D','C', 'protecting', 'blank4')"><span class="opt-letter">D</span> researching</button>
+          <button class="option-btn" onclick="checkMC(9,'A','A', 'apologise to', 'blank5')"><span class="opt-letter">A</span> apologise to</button>
+          <button class="option-btn" onclick="checkMC(9,'B','A', 'apologise to', 'blank5')"><span class="opt-letter">B</span> blame</button>
+          <button class="option-btn" onclick="checkMC(9,'C','A', 'apologise to', 'blank5')"><span class="opt-letter">C</span> thank</button>
+          <button class="option-btn" onclick="checkMC(9,'D','A', 'apologise to', 'blank5')"><span class="opt-letter">D</span> worry about</button>
         </div>
         <div class="feedback" id="q9-feedback"></div>
       </div>
     </div>
 
-    <!-- Q10 -->
-    <div class="question-block" id="qblock-10" data-text="3">
-      <div class="q-header"><span class="q-num">Question 10</span><span class="q-pts">1 pt · MC (gap fill)</span></div>
+    <!-- TEXT 5 GROUP -->
+    <div class="q-group-header" onclick="showText(4)">
+      <span class="q-group-num">Text 5</span>
+      <span class="q-group-title">Pay it Forward</span>
+      <span class="q-group-arrow">↖ click to read</span>
+    </div>
+
+    <!-- Q10 — Pay it Forward -->
+    <div class="question-block" id="qblock-10" data-text="4">
+      <div class="q-header"><span class="q-num">Question 10</span><span class="q-pts">1 pt · MC</span></div>
       <div class="q-body">
-        <div class="q-text">Kies bij <strong>5</strong> in alinea 5 het juiste antwoord.</div>
+        <div class="q-text">Hoe werkt 'Pay it Forward' (titel), zoals beschreven in dit artikel?</div>
         <div class="options">
-          <button class="option-btn" onclick="checkMC(10,'A','A', 'apologise to', 'blank5')"><span class="opt-letter">A</span> apologise to</button>
-          <button class="option-btn" onclick="checkMC(10,'B','A', 'apologise to', 'blank5')"><span class="opt-letter">B</span> blame</button>
-          <button class="option-btn" onclick="checkMC(10,'C','A', 'apologise to', 'blank5')"><span class="opt-letter">C</span> thank</button>
-          <button class="option-btn" onclick="checkMC(10,'D','A', 'apologise to', 'blank5')"><span class="opt-letter">D</span> worry about</button>
+          <button class="option-btn" onclick="checkMC(10,'A','A')"><span class="opt-letter">A</span> Je betaalt het drankje voor de persoon die na jou bestelt.</button>
+          <button class="option-btn" onclick="checkMC(10,'B','A')"><span class="opt-letter">B</span> Je koopt een kaart waarmee je korting krijgt op consumpties.</button>
+          <button class="option-btn" onclick="checkMC(10,'C','A')"><span class="opt-letter">C</span> Je laat geld achter voor een drankje voor dak- en thuislozen.</button>
+          <button class="option-btn" onclick="checkMC(10,'D','A')"><span class="opt-letter">D</span> Je moet eerst betalen voordat je je bestelling op mag halen.</button>
         </div>
         <div class="feedback" id="q10-feedback"></div>
       </div>
     </div>
 
-    <!-- Q11 -->
-    <div class="question-block" id="qblock-11" data-text="4">
+    <!-- TEXT 6 GROUP -->
+    <div class="q-group-header" onclick="showText(5)">
+      <span class="q-group-num">Text 6</span>
+      <span class="q-group-title">Public Library</span>
+      <span class="q-group-arrow">↖ click to read</span>
+    </div>
+
+    <!-- Q11 — Public Library: para 1 introduction -->
+    <div class="question-block" id="qblock-11" data-text="5">
       <div class="q-header"><span class="q-num">Question 11</span><span class="q-pts">1 pt · MC</span></div>
       <div class="q-body">
-        <div class="q-text">Hoe werkt 'Pay it Forward' (titel), zoals beschreven in dit artikel?</div>
+        <div class="q-text">How does the writer introduce the subject in paragraph 1?</div>
         <div class="options">
-          <button class="option-btn" onclick="checkMC(11,'A','A')"><span class="opt-letter">A</span> Je betaalt het drankje voor de persoon die na jou bestelt.</button>
-          <button class="option-btn" onclick="checkMC(11,'B','A')"><span class="opt-letter">B</span> Je koopt een kaart waarmee je korting krijgt op consumpties.</button>
-          <button class="option-btn" onclick="checkMC(11,'C','A')"><span class="opt-letter">C</span> Je laat geld achter voor een drankje voor dak- en thuislozen.</button>
-          <button class="option-btn" onclick="checkMC(11,'D','A')"><span class="opt-letter">D</span> Je moet eerst betalen voordat je je bestelling op mag halen.</button>
+          <button class="option-btn" onclick="checkMC(11,'A','C')"><span class="opt-letter">A</span> by comparing two different events</button>
+          <button class="option-btn" onclick="checkMC(11,'B','C')"><span class="opt-letter">B</span> by contradicting the title of the article</button>
+          <button class="option-btn" onclick="checkMC(11,'C','C')"><span class="opt-letter">C</span> by describing a remarkable situation</button>
+          <button class="option-btn" onclick="checkMC(11,'D','C')"><span class="opt-letter">D</span> by supporting a courageous initiative</button>
         </div>
         <div class="feedback" id="q11-feedback"></div>
       </div>
     </div>
 
-    <!-- Q12 -->
+    <!-- Q12 — Public Library: first 2 words -->
     <div class="question-block" id="qblock-12" data-text="5">
-      <div class="q-header"><span class="q-num">Question 12</span><span class="q-pts">1 pt · MC</span></div>
+      <div class="q-header"><span class="q-num">Question 12</span><span class="q-pts">1 pt · Open (cite first 2 words)</span></div>
       <div class="q-body">
-        <div class="q-text">How does the writer introduce the subject in paragraph 1?</div>
-        <div class="options">
-          <button class="option-btn" onclick="checkMC(12,'A','C')"><span class="opt-letter">A</span> by comparing two different events</button>
-          <button class="option-btn" onclick="checkMC(12,'B','C')"><span class="opt-letter">B</span> by contradicting the title of the article</button>
-          <button class="option-btn" onclick="checkMC(12,'C','C')"><span class="opt-letter">C</span> by describing a remarkable situation</button>
-          <button class="option-btn" onclick="checkMC(12,'D','C')"><span class="opt-letter">D</span> by supporting a courageous initiative</button>
-        </div>
+        <div class="q-quote">'It's a policy you might assume would end very quickly' (alinea 2)</div>
+        <div class="q-text">In welke zin heeft de schrijfster dit al eens eerder gezegd? Citeer de eerste twee woorden van deze zin.</div>
+        <textarea class="open-input" id="q12-input" placeholder="Eerste twee woorden..." style="min-height:44px;"></textarea>
         <div class="feedback" id="q12-feedback"></div>
       </div>
     </div>
 
-    <!-- Q13 -->
+    <!-- Q13 — Public Library: Guanlao motivation -->
     <div class="question-block" id="qblock-13" data-text="5">
-      <div class="q-header"><span class="q-num">Question 13</span><span class="q-pts">1 pt · Open (cite first 2 words)</span></div>
+      <div class="q-header"><span class="q-num">Question 13</span><span class="q-pts">1 pt · MC</span></div>
       <div class="q-body">
-        <div class="q-quote">'It's a policy you might assume would end very quickly' (alinea 2)</div>
-        <div class="q-text">In welke zin heeft de schrijfster dit al eens eerder gezegd? Citeer de eerste twee woorden van deze zin.</div>
-        <textarea class="open-input" id="q13-input" placeholder="Eerste twee woorden..." style="min-height:44px;"></textarea>
-        
+        <div class="q-text">Why did Guanlao start his project, according to paragraph 3? <em>He felt the need to…</em></div>
+        <div class="options">
+          <button class="option-btn" onclick="checkMC(13,'A','C')"><span class="opt-letter">A</span> contribute to a better environment for the future.</button>
+          <button class="option-btn" onclick="checkMC(13,'B','C')"><span class="opt-letter">B</span> do away with all the objects he did not really need.</button>
+          <button class="option-btn" onclick="checkMC(13,'C','C')"><span class="opt-letter">C</span> do something suitable in memory of his parents.</button>
+          <button class="option-btn" onclick="checkMC(13,'D','C')"><span class="opt-letter">D</span> share his great wealth with less fortunate people.</button>
+        </div>
         <div class="feedback" id="q13-feedback"></div>
       </div>
     </div>
 
-    <!-- Q14 -->
+    <!-- Q14 — Public Library: Celine -->
     <div class="question-block" id="qblock-14" data-text="5">
       <div class="q-header"><span class="q-num">Question 14</span><span class="q-pts">1 pt · MC</span></div>
       <div class="q-body">
-        <div class="q-text">Why did Guanlao start his project, according to paragraph 3? <em>He felt the need to…</em></div>
+        <div class="q-text">What does Celine particularly like about Guanlao's library, according to paragraph 4?</div>
         <div class="options">
-          <button class="option-btn" onclick="checkMC(14,'A','C')"><span class="opt-letter">A</span> contribute to a better environment for the future.</button>
-          <button class="option-btn" onclick="checkMC(14,'B','C')"><span class="opt-letter">B</span> do away with all the objects he did not really need.</button>
-          <button class="option-btn" onclick="checkMC(14,'C','C')"><span class="opt-letter">C</span> do something suitable in memory of his parents.</button>
-          <button class="option-btn" onclick="checkMC(14,'D','C')"><span class="opt-letter">D</span> share his great wealth with less fortunate people.</button>
+          <button class="option-btn" onclick="checkMC(14,'A','A')"><span class="opt-letter">A</span> It gives poor people the chance to read books.</button>
+          <button class="option-btn" onclick="checkMC(14,'B','A')"><span class="opt-letter">B</span> It helps her get rid of books she no longer wants.</button>
+          <button class="option-btn" onclick="checkMC(14,'C','A')"><span class="opt-letter">C</span> It is in short walking distance from her home.</button>
+          <button class="option-btn" onclick="checkMC(14,'D','A')"><span class="opt-letter">D</span> It provides reading materials for local schools.</button>
         </div>
         <div class="feedback" id="q14-feedback"></div>
       </div>
     </div>
 
-    <!-- Q15 -->
+    <!-- Q15 — Public Library: Guanlao para 5 -->
     <div class="question-block" id="qblock-15" data-text="5">
       <div class="q-header"><span class="q-num">Question 15</span><span class="q-pts">1 pt · MC</span></div>
       <div class="q-body">
-        <div class="q-text">What does Celine particularly like about Guanlao's library, according to paragraph 4?</div>
+        <div class="q-text">What can be concluded about Guanlao from paragraph 5?</div>
         <div class="options">
-          <button class="option-btn" onclick="checkMC(15,'A','A')"><span class="opt-letter">A</span> It gives poor people the chance to read books.</button>
-          <button class="option-btn" onclick="checkMC(15,'B','A')"><span class="opt-letter">B</span> It helps her get rid of books she no longer wants.</button>
-          <button class="option-btn" onclick="checkMC(15,'C','A')"><span class="opt-letter">C</span> It is in short walking distance from her home.</button>
-          <button class="option-btn" onclick="checkMC(15,'D','A')"><span class="opt-letter">D</span> It provides reading materials for local schools.</button>
+          <button class="option-btn" onclick="checkMC(15,'A','C')"><span class="opt-letter">A</span> He dislikes having to depend on gifts from well-wishers.</button>
+          <button class="option-btn" onclick="checkMC(15,'B','C')"><span class="opt-letter">B</span> He has found a way to earn money with his library.</button>
+          <button class="option-btn" onclick="checkMC(15,'C','C')"><span class="opt-letter">C</span> He is clearly pleased with the choices he has made.</button>
+          <button class="option-btn" onclick="checkMC(15,'D','C')"><span class="opt-letter">D</span> He lost his job because he spent too much time on his library.</button>
+          <button class="option-btn" onclick="checkMC(15,'E','C')"><span class="opt-letter">E</span> He wants to make his business profitable by expanding.</button>
         </div>
         <div class="feedback" id="q15-feedback"></div>
       </div>
     </div>
 
-    <!-- Q16 -->
-    <div class="question-block" id="qblock-16" data-text="5">
+    <!-- TEXT 7 GROUP -->
+    <div class="q-group-header" onclick="showText(6)">
+      <span class="q-group-num">Text 7</span>
+      <span class="q-group-title">Is it ever okay to spy on your children?</span>
+      <span class="q-group-arrow">↖ click to read</span>
+    </div>
+
+    <!-- Q16 — Spy: intro para 1 -->
+    <div class="question-block" id="qblock-16" data-text="6">
       <div class="q-header"><span class="q-num">Question 16</span><span class="q-pts">1 pt · MC</span></div>
       <div class="q-body">
-        <div class="q-text">What can be concluded about Guanlao from paragraph 5?</div>
+        <div class="q-text">How does the writer introduce the topic of this text in paragraph 1?</div>
         <div class="options">
-          <button class="option-btn" onclick="checkMC(16,'A','C')"><span class="opt-letter">A</span> He dislikes having to depend on gifts from well-wishers.</button>
-          <button class="option-btn" onclick="checkMC(16,'B','C')"><span class="opt-letter">B</span> He has found a way to earn money with his library.</button>
-          <button class="option-btn" onclick="checkMC(16,'C','C')"><span class="opt-letter">C</span> He is clearly pleased with the choices he has made.</button>
-          <button class="option-btn" onclick="checkMC(16,'D','C')"><span class="opt-letter">D</span> He lost his job because he spent too much time on his library.</button>
-          <button class="option-btn" onclick="checkMC(16,'E','C')"><span class="opt-letter">E</span> He wants to make his business profitable by expanding.</button>
+          <button class="option-btn" onclick="checkMC(16,'A','C')"><span class="opt-letter">A</span> by accusing Gordon Ramsay of using his family to get publicity</button>
+          <button class="option-btn" onclick="checkMC(16,'B','C')"><span class="opt-letter">B</span> by making clear that Gordon Ramsay is an expert on teenagers</button>
+          <button class="option-btn" onclick="checkMC(16,'C','C')"><span class="opt-letter">C</span> by referring to a statement recently made by Gordon Ramsay</button>
+          <button class="option-btn" onclick="checkMC(16,'D','C')"><span class="opt-letter">D</span> by suggesting that you do not need to look up to Gordon Ramsay</button>
         </div>
         <div class="feedback" id="q16-feedback"></div>
       </div>
     </div>
 
-    <!-- Q17 -->
+    <!-- Q17 — Spy: main point para 2 -->
     <div class="question-block" id="qblock-17" data-text="6">
       <div class="q-header"><span class="q-num">Question 17</span><span class="q-pts">1 pt · MC</span></div>
       <div class="q-body">
-        <div class="q-text">How does the writer introduce the topic of this text in paragraph 1?</div>
+        <div class="q-text">What is the main point made in paragraph 2?</div>
         <div class="options">
-          <button class="option-btn" onclick="checkMC(17,'A','C')"><span class="opt-letter">A</span> by accusing Gordon Ramsay of using his family to get publicity</button>
-          <button class="option-btn" onclick="checkMC(17,'B','C')"><span class="opt-letter">B</span> by making clear that Gordon Ramsay is an expert on teenagers</button>
-          <button class="option-btn" onclick="checkMC(17,'C','C')"><span class="opt-letter">C</span> by referring to a statement recently made by Gordon Ramsay</button>
-          <button class="option-btn" onclick="checkMC(17,'D','C')"><span class="opt-letter">D</span> by suggesting that you do not need to look up to Gordon Ramsay</button>
+          <button class="option-btn" onclick="checkMC(17,'A','C')"><span class="opt-letter">A</span> Cameras are only effective when combined with other methods.</button>
+          <button class="option-btn" onclick="checkMC(17,'B','C')"><span class="opt-letter">B</span> Quarreling with your parents during puberty is part of growing up.</button>
+          <button class="option-btn" onclick="checkMC(17,'C','C')"><span class="opt-letter">C</span> The behaviour of parents is reflected in the actions of their children.</button>
+          <button class="option-btn" onclick="checkMC(17,'D','C')"><span class="opt-letter">D</span> There is therapy that can help parents cope with difficult teenagers.</button>
+          <button class="option-btn" onclick="checkMC(17,'E','C')"><span class="opt-letter">E</span> Youngsters are experts on high-tech spy gadgets and equipment.</button>
         </div>
         <div class="feedback" id="q17-feedback"></div>
       </div>
     </div>
 
-    <!-- Q18 -->
+    <!-- Q18 — Spy: 'their' refers to -->
     <div class="question-block" id="qblock-18" data-text="6">
-      <div class="q-header"><span class="q-num">Question 18</span><span class="q-pts">1 pt · MC</span></div>
+      <div class="q-header"><span class="q-num">Question 18</span><span class="q-pts">1 pt · Open (Dutch or English)</span></div>
       <div class="q-body">
-        <div class="q-text">What is the main point made in paragraph 2?</div>
-        <div class="options">
-          <button class="option-btn" onclick="checkMC(18,'A','C')"><span class="opt-letter">A</span> Cameras are only effective when combined with other methods.</button>
-          <button class="option-btn" onclick="checkMC(18,'B','C')"><span class="opt-letter">B</span> Quarreling with your parents during puberty is part of growing up.</button>
-          <button class="option-btn" onclick="checkMC(18,'C','C')"><span class="opt-letter">C</span> The behaviour of parents is reflected in the actions of their children.</button>
-          <button class="option-btn" onclick="checkMC(18,'D','C')"><span class="opt-letter">D</span> There is therapy that can help parents cope with difficult teenagers.</button>
-          <button class="option-btn" onclick="checkMC(18,'E','C')"><span class="opt-letter">E</span> Youngsters are experts on high-tech spy gadgets and equipment.</button>
-        </div>
+        <div class="q-quote">'This makes it all their fault, their failings.' (alinea 2)</div>
+        <div class="q-text">Naar wie verwijst 'their'? Je mag in het Engels of in het Nederlands antwoorden.</div>
+        <textarea class="open-input" id="q18-input" placeholder="Typ hier je antwoord..." style="min-height:44px;"></textarea>
         <div class="feedback" id="q18-feedback"></div>
       </div>
     </div>
 
-    <!-- Q19 -->
+    <!-- Q19 — Spy: gap 23 -->
     <div class="question-block" id="qblock-19" data-text="6">
-      <div class="q-header"><span class="q-num">Question 19</span><span class="q-pts">1 pt · Open (Dutch or English)</span></div>
-      <div class="q-body">
-        <div class="q-quote">'This makes it all their fault, their failings.' (alinea 2)</div>
-        <div class="q-text">Naar wie verwijst 'their'? Je mag in het Engels of in het Nederlands antwoorden.</div>
-        <textarea class="open-input" id="q19-input" placeholder="Typ hier je antwoord..." style="min-height:44px;"></textarea>
-        
-        <div class="feedback" id="q19-feedback"></div>
-      </div>
-    </div>
-
-    <!-- Q20 -->
-    <div class="question-block" id="qblock-20" data-text="6">
-      <div class="q-header"><span class="q-num">Question 20</span><span class="q-pts">1 pt · MC (gap fill)</span></div>
+      <div class="q-header"><span class="q-num">Question 19</span><span class="q-pts">1 pt · MC (gap fill)</span></div>
       <div class="q-body">
         <div class="q-text">Kies bij <strong>23</strong> in alinea 3 het juiste antwoord.</div>
         <div class="options">
-          <button class="option-btn" onclick="checkMC(20,'A','C', 'dishonesty', 'blank23')"><span class="opt-letter">A</span> arrogance</button>
-          <button class="option-btn" onclick="checkMC(20,'B','C', 'dishonesty', 'blank23')"><span class="opt-letter">B</span> confidence</button>
-          <button class="option-btn" onclick="checkMC(20,'C','C', 'dishonesty', 'blank23')"><span class="opt-letter">C</span> dishonesty</button>
-          <button class="option-btn" onclick="checkMC(20,'D','C', 'dishonesty', 'blank23')"><span class="opt-letter">D</span> obedience</button>
-          <button class="option-btn" onclick="checkMC(20,'E','C', 'dishonesty', 'blank23')"><span class="opt-letter">E</span> respect</button>
+          <button class="option-btn" onclick="checkMC(19,'A','C', 'dishonesty', 'blank23')"><span class="opt-letter">A</span> arrogance</button>
+          <button class="option-btn" onclick="checkMC(19,'B','C', 'dishonesty', 'blank23')"><span class="opt-letter">B</span> confidence</button>
+          <button class="option-btn" onclick="checkMC(19,'C','C', 'dishonesty', 'blank23')"><span class="opt-letter">C</span> dishonesty</button>
+          <button class="option-btn" onclick="checkMC(19,'D','C', 'dishonesty', 'blank23')"><span class="opt-letter">D</span> obedience</button>
+          <button class="option-btn" onclick="checkMC(19,'E','C', 'dishonesty', 'blank23')"><span class="opt-letter">E</span> respect</button>
         </div>
-        <div class="feedback" id="q20-feedback"></div>
+        <div class="feedback" id="q19-feedback"></div>
       </div>
     </div>
 
@@ -893,59 +951,52 @@
 </div>
 
 <div class="progress-footer">
-  <span id="progress-text">0 of 20 answered</span>
+  <span id="progress-text">0 of 19 answered</span>
   <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
-  <span id="progress-score">Score: 0 / 20</span>
+  <span id="progress-score">Score: 0 / 19</span>
 </div>
 
 <script>
-  // ── DATA ──────────────────────────────────────────────────────────────────
-  const TOTAL = 20;
+  const TOTAL = 19;
   const TEACHER_PASSWORD = 'docent2025';
 
-  // All submissions stored in memory (resets on page reload)
   let allSubmissions = [];
-
-  // Current student state
-  let mcAnswers   = {};   // { qNum: 'A'|'B'|... }
-  let openAnswers = {};   // { qNum: 'typed text' }
+  let mcAnswers   = {};
+  let openAnswers = {};
   let submitted   = false;
 
-  // Question metadata for results display
+  const OPEN_QS = [1, 6, 12, 18];
+
   const qMeta = {
-    1:  { type:'open',  text:'Q1 – Doggie Vibes',         keywords:['sfeer','atmosfeer','atmosphere','constructief','beter werken','positief effect','verbetert'], model:'dat de sfeer op het werk verbetert / beter samenwerken' },
-    2:  { type:'mc',    text:'Q2 – Tall Order (gap)',      correct:'C' },
-    3:  { type:'mc',    text:'Q3 – Alain Robert',          correct:'B' },
-    4:  { type:'mc',    text:'Q4 – Writer attitude',       correct:'D' },
-    5:  { type:'mc',    text:'Q5 – Louis C.K. quote',      correct:'D' },
-    6:  { type:'mc',    text:'Q6 – Para 3 main point',     correct:'B' },
-    7:  { type:'open',  text:'Q7 – First 2 words',         keywords:["we've proven","we've","we have"], model:"We've proven" },
-    8:  { type:'mc',    text:'Q8 – Gap 3 (however)',       correct:'B', blankId:'blank3', fillWord:'however' },
-    9:  { type:'mc',    text:'Q9 – Gap 4 (protecting)',    correct:'C', blankId:'blank4', fillWord:'protecting' },
-    10: { type:'mc',    text:'Q10 – Gap 5 (apologise to)', correct:'A', blankId:'blank5', fillWord:'apologise to' },
-    11: { type:'mc',    text:'Q11 – Pay it Forward',       correct:'A' },
-    12: { type:'mc',    text:'Q12 – Para 1 introduction',  correct:'C' },
-    13: { type:'open',  text:'Q13 – First 2 words',        keywords:['if you'], model:'If you' },
-    14: { type:'mc',    text:'Q14 – Guanlao motivation',   correct:'C' },
-    15: { type:'mc',    text:'Q15 – Celine likes',         correct:'A' },
-    16: { type:'mc',    text:'Q16 – Guanlao para 5',       correct:'C' },
-    17: { type:'mc',    text:'Q17 – Gordon Ramsay intro',  correct:'C' },
-    18: { type:'mc',    text:'Q18 – Para 2 main point',    correct:'C' },
-    19: { type:'open',  text:'Q19 – Their refers to',      keywords:['kinderen','children','tieners','teenagers','kids','jongeren'], model:'(hun) kinderen / children' },
-    20: { type:'mc',    text:'Q20 – Gap 23 (dishonesty)',  correct:'C', blankId:'blank23', fillWord:'dishonesty' },
+    1:  { type:'open', text:'Q1 – Doggie Vibes',          keywords:['sfeer','atmosfeer','atmosphere','constructief','beter werken','positief effect','verbetert'], model:'dat de sfeer op het werk verbetert / beter samenwerken' },
+    2:  { type:'mc',   text:'Q2 – Alain Robert',           correct:'B' },
+    3:  { type:'mc',   text:'Q3 – Writer attitude',        correct:'D' },
+    4:  { type:'mc',   text:'Q4 – Louis C.K. quote',       correct:'D' },
+    5:  { type:'mc',   text:'Q5 – Para 3 main point',      correct:'B' },
+    6:  { type:'open', text:'Q6 – First 2 words',          keywords:["we've proven","we've","we have"], model:"We've proven" },
+    7:  { type:'mc',   text:'Q7 – Gap 3 (however)',        correct:'B', blankId:'blank3', fillWord:'however' },
+    8:  { type:'mc',   text:'Q8 – Gap 4 (protecting)',     correct:'C', blankId:'blank4', fillWord:'protecting' },
+    9:  { type:'mc',   text:'Q9 – Gap 5 (apologise to)',   correct:'A', blankId:'blank5', fillWord:'apologise to' },
+    10: { type:'mc',   text:'Q10 – Pay it Forward',        correct:'A' },
+    11: { type:'mc',   text:'Q11 – Para 1 introduction',   correct:'C' },
+    12: { type:'open', text:'Q12 – First 2 words',         keywords:['if you'], model:'If you' },
+    13: { type:'mc',   text:'Q13 – Guanlao motivation',    correct:'C' },
+    14: { type:'mc',   text:'Q14 – Celine likes',          correct:'A' },
+    15: { type:'mc',   text:'Q15 – Guanlao para 5',        correct:'C' },
+    16: { type:'mc',   text:'Q16 – Gordon Ramsay intro',   correct:'C' },
+    17: { type:'mc',   text:'Q17 – Para 2 main point',     correct:'C' },
+    18: { type:'open', text:'Q18 – Their refers to',       keywords:['kinderen','children','tieners','teenagers','kids','jongeren'], model:'(hun) kinderen / children' },
+    19: { type:'mc',   text:'Q19 – Gap 23 (dishonesty)',   correct:'C', blankId:'blank23', fillWord:'dishonesty' },
   };
 
-  // ── TEXT TABS ─────────────────────────────────────────────────────────────
   function showText(idx) {
     document.querySelectorAll('.text-section').forEach((s,i) => s.classList.toggle('active', i === idx));
     document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', i === idx));
   }
 
-  // ── MC SELECTION (no feedback, just highlight selected) ───────────────────
   function checkMC(qNum, chosen, correct, fillWord, blankId) {
     if (submitted) return;
     mcAnswers[qNum] = chosen;
-
     const block = document.getElementById('qblock-' + qNum);
     const btns  = block.querySelectorAll('.option-btn');
     const letters = ['A','B','C','D','E'];
@@ -953,13 +1004,10 @@
       btn.classList.remove('selected');
       if (letters[i] === chosen) btn.classList.add('selected');
     });
-
-    // Switch text panel
     showText(parseInt(block.dataset.text));
     updateProgress();
   }
 
-  // ── OPEN ANSWER SAVE ──────────────────────────────────────────────────────
   function saveOpen(qNum) {
     if (submitted) return;
     const input = document.getElementById('q' + qNum + '-input');
@@ -967,29 +1015,36 @@
     if (!val) return;
     openAnswers[qNum] = val;
     const btn = document.querySelector('#qblock-' + qNum + ' .check-btn');
-    btn.textContent = '✓ Saved';
-    btn.classList.add('saved');
+    if (btn) { btn.textContent = '✓ Saved'; btn.classList.add('saved'); }
     updateProgress();
   }
 
-  // ── PROGRESS ──────────────────────────────────────────────────────────────
   function updateProgress() {
-    const done = Object.keys(mcAnswers).length + Object.keys(openAnswers).length;
+    const mcDone   = Object.keys(mcAnswers).length;
+    const openDone = OPEN_QS.filter(q => {
+      const el = document.getElementById('q' + q + '-input');
+      return el && el.value.trim().length > 0;
+    }).length;
+    const done = mcDone + openDone;
     document.getElementById('progress-text').textContent = done + ' of ' + TOTAL + ' answered';
     document.getElementById('progress-fill').style.width = (done / TOTAL * 100) + '%';
     document.getElementById('progress-score').textContent = done + ' / ' + TOTAL + ' answered';
   }
 
-  // ── SUBMIT ────────────────────────────────────────────────────────────────
+  // Listen to open textarea changes for live progress tracking
+  OPEN_QS.forEach(q => {
+    const el = document.getElementById('q' + q + '-input');
+    if (el) el.addEventListener('input', updateProgress);
+  });
+
   function submitTest() {
     if (submitted) { document.getElementById('results-modal').classList.add('show'); return; }
 
     const name = document.getElementById('student-name').value.trim() || 'Anonymous';
     const studentClass = document.getElementById('student-class').value.trim() || '—';
 
-    // Count answered
-    const mcDone = Object.keys(mcAnswers).length;
-    const openDone = [1,7,13,19].filter(q => {
+    const mcDone   = Object.keys(mcAnswers).length;
+    const openDone = OPEN_QS.filter(q => {
       const el = document.getElementById('q' + q + '-input');
       return el && el.value.trim().length > 0;
     }).length;
@@ -1000,21 +1055,19 @@
       const go = confirm(`You still have ${missing} unanswered question(s). Are you sure you want to hand in your answers?`);
       if (!go) return;
     }
+
     let score = 0;
-    let autoScore = 0; // MC only
     const resultRows = [];
 
     for (let q = 1; q <= TOTAL; q++) {
       const meta = qMeta[q];
-      let given, isCorrect, rowClass;
+      let given, isCorrect;
 
       if (meta.type === 'mc') {
         given     = mcAnswers[q] || '—';
         isCorrect = given === meta.correct;
-        if (isCorrect) { score++; autoScore++; }
-        rowClass  = isCorrect ? 'r-correct' : 'r-wrong';
+        if (isCorrect) score++;
 
-        // Show correct/wrong on buttons
         const block = document.getElementById('qblock-' + q);
         const btns  = block.querySelectorAll('.option-btn');
         const letters = ['A','B','C','D','E'];
@@ -1026,7 +1079,6 @@
           else if (letters[i] === meta.correct)    btn.classList.add('correct');
         });
 
-        // Fill blanks in text
         if (meta.blankId && meta.fillWord) {
           const blank = document.getElementById(meta.blankId);
           if (blank) {
@@ -1037,26 +1089,22 @@
           }
         }
 
-        // Show feedback
         const fb = document.getElementById('q' + q + '-feedback');
         if (fb) {
-          fb.textContent  = isCorrect ? '✓ Correct!' : '✗ Answer: ' + meta.correct;
-          fb.className    = 'feedback show ' + (isCorrect ? 'good' : 'bad');
+          fb.textContent = isCorrect ? '✓ Correct!' : '✗ Answer: ' + meta.correct;
+          fb.className   = 'feedback show ' + (isCorrect ? 'good' : 'bad');
         }
 
         resultRows.push({ q, text: meta.text, given, correct: meta.correct, isCorrect, type:'mc' });
 
       } else {
-        // Open question — read directly from textarea
         const inputEl = document.getElementById('q' + q + '-input');
         given = (inputEl ? inputEl.value.trim() : '') || openAnswers[q] || '';
         const auto = given && meta.keywords.some(kw => given.toLowerCase().includes(kw.toLowerCase()));
-        if (auto) { score++; autoScore++; }
-        rowClass = 'r-open';
+        if (auto) score++;
 
-        // Show feedback
         const input = document.getElementById('q' + q + '-input');
-        if (input) { input.disabled = true; }
+        if (input) input.disabled = true;
         const fb = document.getElementById('q' + q + '-feedback');
         if (fb) {
           fb.textContent = (given ? (auto ? '✓ Looks good! ' : '~ Check: ') : '✗ No answer. ') + 'Model: ' + meta.model;
@@ -1069,11 +1117,9 @@
 
     submitted = true;
 
-    // Store in memory
-    const submission = { name, studentClass, timestamp: new Date().toLocaleString('nl-NL'), score, autoScore, total: TOTAL, rows: resultRows };
+    const submission = { name, studentClass, timestamp: new Date().toLocaleString('nl-NL'), score, total: TOTAL, rows: resultRows };
     allSubmissions.push(submission);
 
-    // Save to Neon via Netlify function
     (async () => {
       try {
         await fetch('/api/save-result', {
@@ -1090,82 +1136,32 @@
       } catch(e) { console.warn('Save failed:', e); }
     })();
 
-    // Update progress footer
     document.getElementById('progress-text').textContent = 'Submitted ✓';
     document.getElementById('progress-score').textContent = 'Score: ' + score + ' / ' + TOTAL;
     document.getElementById('progress-fill').style.width = '100%';
 
-    // Show student results modal
     showStudentResults(submission);
   }
 
   function showStudentResults(sub) {
-    const pass = sub.score >= 13;
+    const pass = sub.score >= 12;
     const pct  = Math.round((sub.score / sub.total) * 100);
 
-    // Score-based feedback + MC tips
     let feedbackBlock = '';
     if (pct === 100) {
-      feedbackBlock = `
-        <div style="background:#d8f3dc;border-left:4px solid var(--correct);padding:1rem;border-radius:4px;margin-bottom:1rem;">
-          <strong style="color:var(--correct)">🌟 Perfect score!</strong>
-          <p style="margin-top:0.4rem;font-size:0.88rem;color:var(--correct)">Outstanding work. You understood every text and answered every question correctly. Keep reading in English to maintain this level!</p>
-        </div>`;
+      feedbackBlock = `<div style="background:#d8f3dc;border-left:4px solid var(--correct);padding:1rem;border-radius:4px;margin-bottom:1rem;"><strong style="color:var(--correct)">🌟 Perfect score!</strong><p style="margin-top:0.4rem;font-size:0.88rem;color:var(--correct)">Outstanding work. You understood every text and answered every question correctly.</p></div>`;
     } else if (pct >= 80) {
-      feedbackBlock = `
-        <div style="background:#d8f3dc;border-left:4px solid var(--correct);padding:1rem;border-radius:4px;margin-bottom:1rem;">
-          <strong style="color:var(--correct)">👏 Well done!</strong>
-          <p style="margin-top:0.4rem;font-size:0.88rem;color:var(--correct)">You clearly understood most of the texts. For the questions you missed, go back and re-read those paragraphs carefully — the answer is always in the text.</p>
-        </div>
-        <div style="background:#fff8e6;border-left:4px solid #e6a800;padding:1rem;border-radius:4px;margin-bottom:1rem;">
-          <strong style="color:#7a5800">💡 Tips to get to 100%</strong>
-          <ul style="margin-top:0.5rem;font-size:0.85rem;color:#5a4000;padding-left:1.2rem;line-height:1.8;">
-            <li>For <em>attitude/tone</em> questions: look for words like "sadly", "we doubt it", "of course" — they reveal the writer's feeling.</li>
-            <li>For <em>main point</em> questions: focus on the topic sentence of the paragraph (usually the first or last sentence).</li>
-            <li>For <em>gap-fill</em> questions: read the sentence before AND after the gap — the connector must link both ideas logically.</li>
-          </ul>
-        </div>`;
+      feedbackBlock = `<div style="background:#d8f3dc;border-left:4px solid var(--correct);padding:1rem;border-radius:4px;margin-bottom:1rem;"><strong style="color:var(--correct)">👏 Well done!</strong><p style="margin-top:0.4rem;font-size:0.88rem;color:var(--correct)">You clearly understood most of the texts. For the questions you missed, go back and re-read those paragraphs carefully.</p></div>`;
     } else if (pct >= 65) {
-      feedbackBlock = `
-        <div style="background:#fff8e6;border-left:4px solid #e6a800;padding:1rem;border-radius:4px;margin-bottom:1rem;">
-          <strong style="color:#7a5800">📋 Just passed — but there is room to grow!</strong>
-          <p style="margin-top:0.4rem;font-size:0.88rem;color:#5a4000">You passed, but several questions went wrong. Always go back to the text for evidence — never answer from your own opinion.</p>
-        </div>
-        <div style="background:#fff8e6;border-left:4px solid #e6a800;padding:1rem;border-radius:4px;margin-bottom:1rem;">
-          <strong style="color:#7a5800">💡 MC Reading Tips</strong>
-          <ul style="margin-top:0.5rem;font-size:0.85rem;color:#5a4000;padding-left:1.2rem;line-height:1.8;">
-            <li><strong>Eliminate first:</strong> cross out answers that are clearly wrong or not mentioned in the text.</li>
-            <li><strong>Watch out for "traps":</strong> wrong answers often use words from the text but change the meaning slightly.</li>
-            <li><strong>Attitude questions:</strong> re-read the paragraph and ask yourself — is the writer positive, negative, surprised, amused? Look for small clues like "we doubt it" or "sadly".</li>
-            <li><strong>Gap-fill:</strong> think about what the two sentences around the gap are saying — are they contrasting (→ however), adding (→ also), or showing a result (→ therefore)?</li>
-            <li><strong>Open questions:</strong> answer in your own words but stay close to the text. Include the key word or idea from the relevant sentence.</li>
-          </ul>
-        </div>`;
+      feedbackBlock = `<div style="background:#fff8e6;border-left:4px solid #e6a800;padding:1rem;border-radius:4px;margin-bottom:1rem;"><strong style="color:#7a5800">📋 Just passed — but there is room to grow!</strong><p style="margin-top:0.4rem;font-size:0.88rem;color:#5a4000">Always go back to the text for evidence — never answer from your own opinion.</p></div>`;
     } else {
-      feedbackBlock = `
-        <div style="background:var(--wrong-bg);border-left:4px solid var(--wrong);padding:1rem;border-radius:4px;margin-bottom:1rem;">
-          <strong style="color:var(--wrong)">📚 Not yet — let's work on this together.</strong>
-          <p style="margin-top:0.4rem;font-size:0.88rem;color:var(--wrong)">Don't worry — reading comprehension takes practice. Read the tips below carefully and try the test again after reviewing the texts.</p>
-        </div>
-        <div style="background:#fff8e6;border-left:4px solid #e6a800;padding:1rem;border-radius:4px;margin-bottom:1rem;">
-          <strong style="color:#7a5800">💡 Important MC Reading Strategies</strong>
-          <ul style="margin-top:0.5rem;font-size:0.85rem;color:#5a4000;padding-left:1.2rem;line-height:1.8;">
-            <li><strong>Always find the answer in the text</strong> — never use your own knowledge or opinion.</li>
-            <li><strong>Read the question carefully</strong> — underline the key words before looking for the answer.</li>
-            <li><strong>Eliminate wrong answers first</strong> — even if you're unsure, you can often rule out 2 options.</li>
-            <li><strong>Wrong answers are tricky:</strong> they often copy words from the text but change the meaning. Read all 4 options before choosing.</li>
-            <li><strong>For paragraph questions:</strong> re-read that specific paragraph before answering — don't rely on memory.</li>
-            <li><strong>Gap-fill connectors:</strong> "however" = contrast, "therefore" = result, "for example" = example, "likewise" = similarity.</li>
-            <li><strong>Tone/attitude:</strong> look for adjectives and adverbs that show feeling — "sadly", "surprisingly", "of course", "we doubt it".</li>
-            <li><strong>Open questions in Dutch:</strong> use your own words but include the key idea from the text. One clear sentence is enough.</li>
-          </ul>
-        </div>`;
+      feedbackBlock = `<div style="background:var(--wrong-bg);border-left:4px solid var(--wrong);padding:1rem;border-radius:4px;margin-bottom:1rem;"><strong style="color:var(--wrong)">📚 Not yet — let's work on this together.</strong><p style="margin-top:0.4rem;font-size:0.88rem;color:var(--wrong)">Don't worry — reading comprehension takes practice. Review the texts and try again.</p></div>`;
     }
 
     let html = `
       <div class="score-summary">
         <div class="big">${sub.score} <span style="font-size:1.2rem;opacity:0.6">/ ${sub.total}</span></div>
-        <div class="sub">${pass ? '✓ Passed (13 or more)' : '✗ Not yet (need at least 13)'}</div>
+        <div class="sub">${pass ? '✓ Passed (12 or more)' : '✗ Not yet (need at least 12)'}</div>
         <div class="sub" style="margin-top:0.3rem;">${sub.name} &nbsp;·&nbsp; Class ${sub.studentClass} &nbsp;·&nbsp; ${sub.timestamp}</div>
       </div>
       ${feedbackBlock}
@@ -1191,7 +1187,6 @@
     document.getElementById('results-modal').classList.add('show');
   }
 
-  // ── TEACHER LOGIN ─────────────────────────────────────────────────────────
   function openTeacherLogin() {
     document.getElementById('pw-field').value = '';
     document.getElementById('pw-error').style.display = 'none';
@@ -1217,9 +1212,7 @@
     try {
       const res = await fetch(`/api/get-results?pw=${encodeURIComponent(TEACHER_PASSWORD)}`);
       const json = await res.json();
-
       if (!json.ok) throw new Error(json.error);
-
       const all = json.data;
       if (!all || all.length === 0) {
         html = '<p style="color:var(--ink-light);font-style:italic;margin-top:1rem;">No submissions yet.</p>';
@@ -1228,14 +1221,13 @@
         html += renderSubmissions(all);
       }
     } catch(e) {
-      // Fall back to in-memory if function unreachable (e.g. local preview)
       if (allSubmissions.length === 0) {
         html = '<p style="color:var(--ink-light);font-style:italic;margin-top:1rem;">No submissions yet.</p>';
       } else {
         html = `<p style="font-size:0.82rem;color:var(--ink-light);margin-bottom:1rem;">${allSubmissions.length} submission(s) this session.</p>`;
         html += renderSubmissions(allSubmissions.map(s => ({
-          student_name: s.name, score: s.score, total: s.total,
-          answers: s.rows, submitted_at: new Date().toISOString()
+          student_name: s.name, student_class: s.studentClass, score: s.score,
+          total: s.total, answers: s.rows, submitted_at: new Date().toISOString()
         })));
       }
     }
@@ -1243,17 +1235,14 @@
   }
 
   function renderSubmissions(rows) {
-    let html = '';
-
-    // Summary table first — one row per student
-    html += `<table class="teacher-table" style="margin-bottom:2rem;">
+    let html = `<table class="teacher-table" style="margin-bottom:2rem;">
       <thead><tr><th>Name</th><th>Class</th><th>Score</th><th>%</th><th>Pass?</th><th>Time</th></tr></thead>
       <tbody>`;
     rows.forEach(sub => {
-      const ts = sub.submitted_at ? new Date(sub.submitted_at).toLocaleString('nl-NL') : '';
+      const ts  = sub.submitted_at ? new Date(sub.submitted_at).toLocaleString('nl-NL') : '';
       const cls = sub.student_class || sub.studentClass || '—';
       const pct = Math.round((sub.score / (sub.total || TOTAL)) * 100);
-      const pass = sub.score >= 13;
+      const pass = sub.score >= 12;
       html += `<tr>
         <td><strong>${sub.student_name}</strong></td>
         <td>${cls}</td>
@@ -1264,11 +1253,9 @@
       </tr>`;
     });
     html += `</tbody></table>`;
-
     return html;
   }
 
-  // ── FOCUS EFFECT ──────────────────────────────────────────────────────────
   document.querySelectorAll('.question-block').forEach(block => {
     block.addEventListener('click', function() {
       document.querySelectorAll('.question-block').forEach(b => b.classList.remove('focused'));
